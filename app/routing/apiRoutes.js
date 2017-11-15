@@ -12,23 +12,32 @@ module.exports = function(app){
 		var newPerson = req.body;
 		var newScore = newPerson.scores;
 		var bestMatch;
+//set score larger than biggest possible difference
 		var score = 80 ;
 //loop through all person in people array
 		for (var i = 0; i < people.length; i++) {
-			var exstScore = people[i].scores;
+			var exst = people[i].scores;
 			var diff = 0;
+			
 		//calculate the differnece of all questions
 			for (var j = 0; j < exst.length; i++) {
-				diff += Math.abs(exst[i] - newScore[j])
+
+				if ( diff < score){
+					diff += Math.abs(exst[j] - newScore[j])
+				}else {
+		// if diff already larger than  score, no need to calculate rest of the questions.		
+				diff = 90;
+				return
+				}
 			}
+		
 		//check if it is a better choice
 			if (diff < score) {
 				bestMatch = people[i];
-				score = diff
+				score = diff;
 			}
 		
 		}
-
 
 		res.json(bestMatch);
 
