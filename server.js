@@ -13,8 +13,8 @@ app.use(bodyParser.json());
 
 //set route
 
-require("./app/routing/apiRoutes.js")
-require("./app/routing/htmlRoutes.js")
+require("./app/routing/apiRoutes.js")(app);
+require("./app/routing/htmlRoutes.js")(app);
 
 //listener
 
