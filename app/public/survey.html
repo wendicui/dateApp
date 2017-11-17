@@ -68,7 +68,7 @@
       	</select>
 
 
-		<h3><strong>Question 4</strong></h3>
+	<!-- 	<h3><strong>Question 4</strong></h3>
 		<h4>You rarely do something just out of sheer curiosity.</h4>
 	 	<select data-placeholder="" class="chosen-select" id="q4">
 	 		<option value=""></option>
@@ -146,7 +146,7 @@
             <option value="3">3</option>
             <option value="4">4</option>
             <option value="5">5 (Strongly Agree)</option>
-      	</select>
+      	</select> -->
 
 		<br>
 		<br>
@@ -176,7 +176,7 @@
 	      </div>
 	      <div class="modal-body">
 	        <h2 id="matchName"></h2>
-	        <img id="matchImg" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg" alt="">
+	       <!--  <img id="matchImg" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg" alt=""> -->
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -226,16 +226,28 @@
 	    	var userData = {
 	    		name: $("#name").val(),
 	    		photo: $("#photo").val(),
-	    		scores: [$("#q1").val(), $("#q2").val(), $("#q3").val(), $("#q4").val(), $("#q5").val(), $("#q6").val(), $("#q7").val(), $("#q8").val(), $("#q9").val(), $("#q10").val(), ]
+	    		scores: [$("#q1").val(), $("#q2").val(), $("#q3").val(), 
+	    			// $("#q4").val(), $("#q5").val(), $("#q6").val(), $("#q7").val(), $("#q8").val(), $("#q9").val(), $("#q10").val(), 
+	    			],
+
 	    	}
 
 
 	    	// Grab the URL of the website
 	    	var currentURL = window.location.origin;
+	    	//console.log(currentURL);
 
-	    	// AJAX post the data to the friends API. 
-	    	$.post(currentURL + "/api/friends", userData, function(data){
-
+	    	// AJAX post the data to the friends API.
+	    	$.ajax({
+	    		url:currentURL + "/api/friends",
+	    		type:'post',
+	    		data: userData
+	    	}) .done(function(data){
+	    		console.log(data)
+	    		if(data === '0'){
+	    			//alert("first");
+	    			$(".modal-body").text(" You are the first one here")
+	    		}
 	    		// Grab the result from the AJAX post so that the best match's name and photo are displayed.
 	    		$("#matchName").text(data.name);
 	    		$('#matchImg').attr("src", data.photo);
@@ -243,7 +255,8 @@
 		    	// Show the modal with the best match 
 		    	$("#resultsModal").modal('toggle');
 
-	    	});
+	    	})
+	    	
 		}
 		else
 		{

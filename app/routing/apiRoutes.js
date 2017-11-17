@@ -1,4 +1,7 @@
 var people = require("../data/friends");
+var fs = require ("fs");
+
+console.log(people)
 
 module.exports = function(app){
 //return full list of people
@@ -7,41 +10,58 @@ module.exports = function(app){
 	})
 
 //return the best match
-	app.post('.api/friends', function(req,res){
+	app.post('/api/friends', function(req,res){
+//check if there is anybody else in the array
+		if(people.length === 0){
+			res.send( '0' )
+		}else{
 
-		var newPerson = req.body;
-		var newScore = newPerson.scores;
-		var bestMatch;
-//set score larger than biggest possible difference
-		var score = 80 ;
-//loop through all person in people array
-		for (var i = 0; i < people.length; i++) {
-			var exst = people[i].scores;
-			var diff = 0;
+			var newPerson = req.body;
+			var newScore = newPerson.scores;
+			var bestMatch;
+	//set score larger than biggest possible difference
+			var score = 80 ;
+
+			console.log(newPerson)
+
+
+	//loop through all person in people array
+			for (var i = 0; i < people.length; i++) {
+				var exst = people[i].scores;
+				var diff = 0;
 			
-		//calculate the differnece of all questions
-			for (var j = 0; j < exst.length; i++) {
+				//console.log(exst[0] + parseInt(newScore[0]))
+			//calculate the differnece of all questions
+				for (var j = 0; j < exst.length; i++) {
 
-				if ( diff < score){
-					diff += Math.abs(exst[j] - newScore[j])
-				}else {
-		// if diff already larger than  score, no need to calculate rest of the questions.		
-				diff = 90;
-				return
+					if ( diff < score){
+						diff += Math.abs(exst[j] - parseInt(newScore[j]))
+					}else {
+			// if diff already larger than  score, no need to calculate rest of the questions.		
+					diff = 90;
+					return
+					}
 				}
+				console.log("trial")
+			//check if it is a better choice
+				if (diff < score) {
+					bestMatch = people[i];
+					score = diff;
+				}
+			
 			}
-		
-		//check if it is a better choice
-			if (diff < score) {
-				bestMatch = people[i];
-				score = diff;
-			}
-		
-		}
+			console.log(bestMatch);
+			people.push(newPerson);
+			//console.log(people);
+			res.json(bestMatch);
 
-		res.json(bestMatch);
+			
 
-		people.push(newPerson);
+			//fs.writeFile("../data/friends.js", people)
+
+
+
+	}
 	})
 
 }
