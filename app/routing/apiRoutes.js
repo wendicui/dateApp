@@ -32,17 +32,18 @@ module.exports = function(app){
 			
 				//console.log(exst[0] + parseInt(newScore[0]))
 			//calculate the differnece of all questions
-				for (var j = 0; j < exst.length; i++) {
+				for (var j = 0; j < exst.length; j++) {
 
 					if ( diff < score){
 						diff += Math.abs(exst[j] - parseInt(newScore[j]))
+						console.log("calculate")
 					}else {
 			// if diff already larger than  score, no need to calculate rest of the questions.		
 					diff = 90;
-					return
+					break;
 					}
 				}
-				console.log("trial")
+				console.log(diff)
 			//check if it is a better choice
 				if (diff < score) {
 					bestMatch = people[i];
