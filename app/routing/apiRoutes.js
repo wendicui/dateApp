@@ -1,4 +1,5 @@
-var people = require("../data/friends");
+var peopleObject = require("../data/friends");
+var people = peopleObject.data
 var fs = require ("fs");
 
 console.log(people)
@@ -11,19 +12,22 @@ module.exports = function(app){
 
 //return the best match
 	app.post('/api/friends', function(req,res){
-//check if there is anybody else in the array
-		if(people.length === 0){
-			res.send( '0' )
-		}else{
-
-			var newPerson = req.body;
+		var newPerson = req.body;
 			var newScore = newPerson.scores;
 			var bestMatch;
-	//set score larger than biggest possible difference
+//set score larger than biggest possible difference
 			var score = 80 ;
 
 			console.log(newPerson)
 
+//check if there is anybody else in the array
+		if(people.length === 0){
+			people.push(newPerson);
+			console.log(people);
+			peopleObject.data = people;
+			console.log(peopleObject)
+			res.send( '0' )
+		}else{
 
 	//loop through all person in people array
 			for (var i = 0; i < people.length; i++) {
@@ -53,7 +57,9 @@ module.exports = function(app){
 			}
 			console.log(bestMatch);
 			people.push(newPerson);
-			//console.log(people);
+			console.log(people);
+			peopleObject.data = people;
+			console.log(peopleObject)
 			res.json(bestMatch);
 
 			
