@@ -1,5 +1,5 @@
 var express = require('express');
-var bodyParser = require('bodyParser');
+var bodyParser = require('body-parser');
 
 //creating server
 var app = express();
@@ -8,7 +8,7 @@ var app = express();
 var PORT = process.env.PORT || 5000;
 
 //use body Parse
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //set route
