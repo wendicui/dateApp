@@ -19,8 +19,8 @@ var friends = [
 
 ];
 
-var datas = {
-	data:friends
-}
+// var datas = {
+// 	data:friends
+// }
 
-module.exports = (datas);
+module.exports = (friends);

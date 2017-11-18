@@ -1,5 +1,7 @@
-var peopleObject = require("../data/friends");
-var people = peopleObject.data
+// var peopleObject = require("../data/friends");
+// var people = peopleObject.data
+
+var people = require("../data/friends");
 var fs = require ("fs");
 
 console.log(people)
@@ -24,8 +26,8 @@ module.exports = function(app){
 		if(people.length === 0){
 			people.push(newPerson);
 			console.log(people);
-			peopleObject.data = people;
-			console.log(peopleObject)
+			// peopleObject.data = people;
+			// console.log(peopleObject)
 			res.send( '0' )
 		}else{
 
@@ -58,8 +60,8 @@ module.exports = function(app){
 			console.log(bestMatch);
 			people.push(newPerson);
 			console.log(people);
-			peopleObject.data = people;
-			console.log(peopleObject)
+			// peopleObject.data = people;
+			// console.log(peopleObject)
 			res.json(bestMatch);
 
 			
